@@ -1,0 +1,196 @@
+﻿/* ===== General Styles ===== */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+}
+
+/* ===== Map Container ===== */
+#map {
+    height: 100vh;
+    width: 100%;
+    z-index: 0;
+}
+
+/* ===== Leaflet Popups ===== */
+.custom-popup .leaflet-popup-content-wrapper {
+    background: #1e1e1e; /* dark popup background */
+    color: #ffffff; /* text color */
+    font-weight: bold; /* thicker text */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-radius: 10px;
+    padding: 12px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.6);
+}
+
+.custom-popup .leaflet-popup-tip {
+    background: #1e1e1e; /* match popup background */
+}
+
+/* Male/Female symbols */
+.custom-popup span.male {
+    color: #3498db; /* bright blue */
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.custom-popup span.female {
+    color: #ff1493; /* bright pink */
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* ===== Provinces Hover Style ===== */
+.leaflet-interactive {
+    cursor: pointer;
+}
+
+.leaflet-interactive:hover {
+    opacity: 0.8;
+    fill-opacity: 0.7;
+}
+
+/* ===== Search Bar & Filters ===== */
+#search-container {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 300px;
+    background: #1e1e1e;
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+
+#search-input {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: none;
+    font-size: 14px;
+    background: #2a2a2a;
+    color: #fff;
+}
+
+#search-input:focus {
+    outline: none;
+    box-shadow: 0 0 8px #3498db;
+}
+
+/* Suggestions dropdown */
+#suggestions {
+    margin-top: 5px;
+    max-height: 200px;
+    overflow-y: auto;
+    background: #2a2a2a;
+    border-radius: 8px;
+    padding: 5px 0;
+}
+
+#suggestions div {
+    padding: 8px 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#suggestions div:hover {
+    background: #3498db;
+}
+
+/* ===== Filters Tab ===== */
+#filters-container {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.filter-btn {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: #2a2a2a;
+    color: #fff;
+    font-size: 12px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.filter-btn:hover, .filter-btn.active {
+    background: #3498db;
+    color: #fff;
+}
+
+/* ===== Species List ===== */
+#species-list {
+    max-height: 250px;
+    overflow-y: auto;
+    margin-top: 10px;
+    background: #1e1e1e;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 13px;
+}
+
+#species-list div {
+    padding: 6px 8px;
+    border-bottom: 1px solid #333;
+}
+
+#species-list div:last-child {
+    border-bottom: none;
+}
+
+/* ===== Pin Buttons for Windows ===== */
+.pin-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 12px;
+    z-index: 1100;
+    transition: background 0.3s;
+}
+
+.pin-btn:hover {
+    background: #1abc9c;
+}
+
+/* ===== Province Window ===== */
+#province-window {
+    position: absolute;
+    top: 60px;
+    right: 15px;
+    width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+    background: #1e1e1e;
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+
+#province-window h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.province-item {
+    padding: 6px 8px;
+    border-bottom: 1px solid #333;
+    cursor: pointer;
+}
+
+.province-item:hover {
+    background: #3498db;
+}
