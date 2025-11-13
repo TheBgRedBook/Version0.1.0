@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Карта на Българската Червена Книга</title>
+
+<!-- Tailwind CSS -->
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css" rel="stylesheet">
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<div id="footer-note" style="
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #888;
+    font-size: 12px;
+    font-weight: 500;
+    pointer-events: none;
+    z-index: 1300;
+">
+    Made by Konstantin <3
+</div>
+
+<style>
+body { margin:0; padding:0; background:#0f172a; font-family:'Inter', system-ui, Arial, sans-serif; overflow:hidden; }
+#map { height:100vh; width:100%; z-index:0 }
+
+/* --- Windows --- */
+.window {
+  position: absolute;
+  background: rgba(15,23,42,0.95);
+  border-radius: 12px;
+  padding: 0.6rem;
+  color:#f8fafc;
+  box-shadow:0 8px 24px rgba(0,0,0,0.6);
+  transition: all 0.25s ease;
+  z-index: 1000;
+  user-select:none;
+}
+.window-header {
+  display:flex; justify-content:space-between; align-items:center;
+  margin-bottom:0.5rem;
+  font-weight:700;
+  font-size:14px;
+  cursor:move;
+}
+.window-header .controls button {
+  background: #0ea5a3; border:none; color:white; padding:2px 6px; border-radius:6px; cursor:pointer; margin-left:4px;
+}
+.window-header .controls button:hover { background:#14b8a6; }
+
+/* --- Search --- */
+#search-window { width:300px; top:50px; left:50px; }
+#search-input { width:90%; padding:8px 12px; border-radius:6px; border:none; background:#111827; color:#f8fafc; font-weight:700; font-size:15px; }
+#suggestions { margin-top:6px; max-height:280px; overflow-y:auto; border-radius:8px; background:#071024; padding:4px; box-shadow:0 6px 20px rgba(0,0,0,0.6); }
+#suggestions .sugg { padding:8px 10px; margin-bottom:4px; border-radius:6px; cursor:pointer; transition:all 0.15s ease; }
+#suggestions .sugg:hover { background:#0f1c3c; transform:translateY(-2px); }
+
+/* --- Buttons --- */
+#toggleFilters, #province-btn { margin-top:6px; width:100%; padding:6px 12px; border-radius:8px; background:#111827; color:#f8fafc; font-weight:700; border:none; cursor:pointer; transition:all 0.15s ease; }
+#toggleFilters:hover, #province-btn:hover { background:#1e293b; transform:scale(1.02); }
+
+/* --- Filters --- */
+#filters { margin-top:6px; display:none; background:#0b1220; padding:8px; border-radius:8px; max-height:200px; overflow:auto; }
+.filter-btn { padding:4px 10px; border-radius:6px; border:none; cursor:pointer; margin-bottom:4px; background:#111827; color:white; font-size:13px; display:block; text-align:left; transition:all 0.15s; }
+.filter-btn:hover { background:#1e293b; transform:scale(1.02); }
+.filter-btn.active { background:#3b82f6; color:white; }
+
+/* --- Province Window --- */
+#province-window { margin-top:6px; display:none; background:#0b1220; padding:8px; border-radius:8px; max-height:240px; overflow:auto; }
+.province-item { padding:6px 8px; border-bottom:1px solid rgba(255,255,255,0.1); cursor:pointer; transition:all 0.15s; }
+.province-item:hover { background:#3b82f6; transform:scale(1.02); }
+
+/* --- Popups --- */
+.custom-popup .leaflet-popup-content-wrapper { background: rgba(15,23,42,0.95); color:white; border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,0.7); }
+.custom-popup .leaflet-popup-tip { background: rgba(15,23,42,0.95); }
+
+/* --- Species Info Window --- */
+#species-info, #devlog-window { width:60%; height:70%; top:50px; left:50%; transform:translateX(-50%); display:none; flex-direction:column; }
+#species-info img { max-width:100%; max-height:250px; object-fit:cover; border-radius:12px; margin-bottom:10px; }
+#devlog-content { max-height:400px; overflow:auto; background:#0b1220; padding:8px; border-radius:8px; font-size:13px; }
+
+/* --- Toolbars --- */
+#toolbar { position:absolute; right:10px; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:10px; background: rgba(0,0,0,0.15); border-radius:12px; padding:6px; }
+#bottom-toolbar { position:absolute; bottom:10px; left:50%; transform:translateX(-50%); display:flex; flex-wrap:wrap; gap:6px; background: rgba(0,0,0,0.15); border-radius:12px; padding:6px; max-width:90%; }
+.toolbar-icon { width:auto; min-width:32px; padding:4px 8px; border-radius:8px; background: rgba(59,130,246,0.4); display:flex; align-items:center; justify-content:center; cursor:pointer; font-weight:700; color:white; transition:all 0.2s; }
+.toolbar-icon:hover { transform:scale(1.1); background:#3b82f6; }
+
+@media(max-width:640px){ .window { width:90%; left:5%; } #map { margin:0; height:90vh; } #species-info, #devlog-window { width:90%; left:5%; transform:none; } }
+</style>
+</head>
+<body>
+
+<!-- Search Window -->
+<div id="search-window" class="window" data-title="Търсене вид">
+  <div class="window-header">
+    <span>Потърси вид</span>
+    <div class="controls"><button class="min-btn">_</button></div>
+  </div>
+  <input id="search-input" placeholder="Например: Кафява мечка" />
+  <div id="suggestions"></div>
+  <button id="toggleFilters">Филтри</button>
+  <div id="filters">
+    <button class="filter-btn" data-value="Mammal">Бозайници</button>
+    <button class="filter-btn" data-value="Bird">Птици</button>
+    <button class="filter-btn" data-value="Fish">Риби</button>
+    <button class="filter-btn" data-value="Plant">Растения</button>
+  </div>
+  <button id="province-btn">Списък на области</button>
+  <div id="province-window"></div>
+</div>
+
+<!-- Species Info Window -->
+<div id="species-info" class="window" data-title="Информация вид">
+  <div class="window-header">
+    <span id="species-title">Вид</span>
+    <div class="controls"><button class="min-btn">_</button></div>
+  </div>
+  <img id="species-img" src="" alt="Species Image">
+  <div id="species-desc" style="overflow:auto;"></div>
+</div>
+
+<!-- Devlog Window -->
+<div id="devlog-window" class="window" data-title="DevLog">
+  <div class="window-header">
+    <span>DevLog</span>
+    <div class="controls"><button class="min-btn">_</button></div>
+  </div>
+  <div id="devlog-content"></div>
+</div>
+
+<!-- Map -->
+<div id="map"></div>
+
+<!-- Toolbars -->
+<div id="toolbar"></div>
+<div id="bottom-toolbar"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

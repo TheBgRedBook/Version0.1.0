@@ -1,0 +1,90 @@
+﻿[
+  {
+    "name": "Бурен вълк",
+    "category": "Mammal",
+    "status": "VU",
+    "description": "Среден по размер бозайник, срещащ се в планински райони.",
+    "image": "images/vulk.jpg",
+    "populations": {
+      "Благоевград": { "total": "~50" },
+      "София": { "total": "~30" }
+    }
+  },
+  {
+    "name": "Кафява мечка",
+    "category": "Mammal",
+    "status": "EN",
+    "description": "Голям бозайник, срещащ се главно в Родопите и Стара планина.",
+    "image": "images/mechka.jpg",
+    "populations": {
+      "Смолян": { "total": "~120" },
+      "Пловдив": { "total": "~40" }
+    }
+  },
+  {
+    "name": "Бяла чапла",
+    "category": "Bird",
+    "status": "NT",
+    "description": "Голям воден птах, срещащ се по крайбрежията и влажните зони.",
+    "image": "images/chapla.jpg",
+    "populations": {
+      "Варна": { "total": "~80" },
+      "Бургас": { "total": "~100" }
+    }
+  },
+  {
+    "name": "Сив кълвач",
+    "category": "Bird",
+    "status": "LC",
+    "description": "Дребен горски птах, разпространен в цялата страна.",
+    "image": "images/siv.jpg",
+    "populations": {
+      "Велико Търново": { "total": "~200" },
+      "Плевен": { "total": "~150" }
+    }
+  },
+  {
+    "name": "Балканска пъстърва",
+    "category": "Fish",
+    "status": "EN",
+    "description": "Риба, срещаща се в планински потоци и реки.",
+    "image": "images/pusturva.jpg",
+    "populations": {
+      "Смолян": { "total": "~60" },
+      "Пловдив": { "total": "~40" }
+    }
+  },
+  {
+    "name": "Европейски шаран",
+    "category": "Fish",
+    "status": "LC",
+    "description": "Шаран, разпространен в равнинни води и язовири.",
+    "image": "images/sharan.jpeg",
+    "populations": {
+      "Плевен": { "total": "~300" },
+      "Русе": { "total": "~250" }
+    }
+  },
+  {
+    "name": "Балканска глогинка",
+    "category": "Plant",
+    "status": "VU",
+    "description": "Дребно дърво, среща се в планински райони.",
+    "image": "images/glog.jpeg",
+    "populations": {
+      "Смолян": { "total": "~150" },
+      "Велико Търново": { "total": "~80" }
+    }
+  },
+  {
+    "name": "Черна боровинка",
+    "category": "Plant",
+    "status": "NT",
+    "description": "Дребен храст, срещащ се в гористи и планински райони.",
+    "image": "images/brovinka.jpg",
+    "populations": {
+      "Ловеч": { "total": "~200" },
+      "Монтана": { "total": "~120" }
+    }
+  }
+]
